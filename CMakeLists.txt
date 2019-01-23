@@ -3,4 +3,4 @@ project(LeetCodeProjectCPP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(LeetCodeProjectCPP 933.number-of-recent-calls.cpp)
+add_executable(LeetCodeProjectCPP utils.h 118.pascals-triangle.cpp)
