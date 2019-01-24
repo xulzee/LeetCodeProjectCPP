@@ -3,4 +3,4 @@ project(LeetCodeProjectCPP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(LeetCodeProjectCPP utils.h 118.pascals-triangle.cpp)
+add_executable(LeetCodeProjectCPP utils.h 371.sum-of-two-integers.cpp)
