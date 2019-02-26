@@ -3,4 +3,4 @@ project(LeetCodeProjectCPP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(LeetCodeProjectCPP utils.h "136. Single Number.cpp")
+add_executable(LeetCodeProjectCPP utils.h "1. Two Sum.cpp")

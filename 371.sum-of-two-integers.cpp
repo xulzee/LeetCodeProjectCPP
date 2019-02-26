@@ -10,8 +10,8 @@ public:
     int getSum(int a, int b) {
         int c = 0;
         while (b != 0){
-            c = a ^ b;
-            b = (a & b) << 1;
+            c = a ^ b; // 不带进位加
+            b = (a & b) << 1; //求进位
             a = c;
         }
         return c;
@@ -20,7 +20,7 @@ public:
 
 int main() {
     cout << "Expected result is " << "0 " << endl;
-    int a = 1;
-    int b = -1;
+    int a = 22;
+    int b = 44;
     cout << "Our solution result is " << Solution().getSum(a, b) << endl;
 }
