@@ -3,4 +3,4 @@ project(LeetCodeProjectCPP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(LeetCodeProjectCPP utils.h "26. Remove Duplicates from Sorted Array.cpp")
+add_executable(LeetCodeProjectCPP utils.h "189. Rotate Array.cpp")
