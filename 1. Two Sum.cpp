@@ -11,7 +11,7 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
+    vector<int> twoSum(vector<int> &nums, int target) {
         unordered_map<int, int> hashmap{};
         int another_num = 0;
         for (auto i = 0; i < nums.size(); ++i) {
@@ -25,7 +25,7 @@ public:
 };
 
 int main() {
-    vector<int> A = {2,7,11,15};
+    vector<int> A = {2, 7, 11, 15};
     int target = 9;
     printIntVector(Solution().twoSum(A, target));
 }
