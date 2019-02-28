@@ -14,4 +14,10 @@ inline void printIntVector(const vector<int>& vec){
     }
 }
 
+inline void printCharVector(const vector<char>& vec){
+    for (auto& iter : vec) {
+        cout << iter << " ";
+    }
+}
+
 #endif //LEETCODEPROJECTCPP_UTILS_H
