@@ -25,6 +25,24 @@ public:
 };
 
 int main() {
+
+    const int M = 1000000007;
+    const int MAXN = 100;
+    int C[MAXN+1][MAXN+1];
+
+    int i,j;
+//    for(i=0; i<=MAXN; ++i)
+//    {
+//        C[0][i] = 0;
+//        C[i][0] = 1;
+//    }
+    for(i=0; i<=MAXN; ++i)
+    {
+        C[0][i] = 0;
+        C[i][0] = 1;
+        for(j=1; j<=MAXN; ++j)
+            C[i][j] = (C[i-1][j] + C[i-1][j-1]) % M;
+    }
     vector<int> A = {2, 7, 11, 15};
     int target = 9;
     printIntVector(Solution().twoSum(A, target));
