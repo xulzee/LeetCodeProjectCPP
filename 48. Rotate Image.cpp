@@ -12,7 +12,7 @@ using namespace std;
 
 class Solution {
 public:
-    void rotate(vector<vector<int>> &matrix) {
+    void rotate1(vector<vector<int>> &matrix) {
         for (int i = 0; i < matrix.size(); ++i) {
             for (int j = i + 1; j < matrix.size(); ++j) {
                 matrix[i][j] = matrix[i][j] ^ matrix[j][i];
@@ -22,6 +22,28 @@ public:
             reverse(matrix[i].begin(), matrix[i].end());
         }
     }
+
+    void rotate(vector<vector<int>> &matrix) {
+        int start_row = 0;
+        int start_column = 0;
+        int end_row = static_cast<int>(matrix.size()) - 1;
+        int end_column = static_cast<int>(matrix.size()) - 1;
+        while (start_row < end_row) {
+            rotateEdge(matrix, start_row++, start_column++, end_row--, end_column--);
+        }
+    }
+
+    void rotateEdge(vector<vector<int>> &matrix, int start_row, int start_column, int end_row, int end_column) {
+        int times = end_row - start_row;
+        for (int i = 0; i < times; ++i) {
+            int temp = matrix[start_row][start_column + i];
+            matrix[start_row][start_column + i] = matrix[end_row - i][start_column];
+            matrix[end_row - i][start_column] = matrix[end_row][end_column - i];
+            matrix[end_row][end_column - i] = matrix[start_row + i][end_column];
+            matrix[start_row + i][end_column] = temp;
+        }
+    }
+
 };
 
 int main() {
