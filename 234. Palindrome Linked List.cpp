@@ -24,39 +24,39 @@ struct ListNode {
 class Solution {
 public:
     ListNode *reverseList(ListNode *head) {  //递归反转链表
-        if (head == NULL || head->next == NULL) {
+        if (head == nullptr || head->next == nullptr) {
             return head;
         }
 
-        ListNode *t = NULL;
+        ListNode *t = nullptr;
         t = reverseList(head->next);
         head->next->next = head;
-        head->next = NULL;
+        head->next = nullptr;
 
         return t;
 
     }
 
     bool isPalindrome1(ListNode *head) {
-        if (head == NULL or head->next == NULL) {
+        if (head == nullptr or head->next == nullptr) {
             return true;
         }
 
         ListNode *slow = head;
         ListNode *fast = head;
 
-        while (fast->next != NULL and fast->next->next != NULL) {
+        while (fast->next != nullptr and fast->next->next != nullptr) {
             slow = slow->next;
             fast = fast->next->next;
         }
 
-        if (fast->next != NULL) {
+        if (fast->next != nullptr) {
             slow = slow->next;
         }
 
         slow = reverseList(slow);
 
-        while (slow != NULL) {
+        while (slow != nullptr) {
             if (head->val != slow->val) {
                 return false;
             }
@@ -67,49 +67,50 @@ public:
     }
 
     bool isPalindrome(ListNode *head) {
-        if (head == nullptr || head->next == nullptr) {
-            return true;
-        }
         bool res = true;
-        //找到链表中间节点
-        ListNode *n1 = head;
-        ListNode *n2 = head;
-        while (n2->next != nullptr && n2->next->next != nullptr) {
-            n1 = n1->next;
-            n2 = n2->next->next;
+        if (head == nullptr || head->next == nullptr) {
+            return res;
         }
-        // n2 表示下一半的前一个
-        // 反转 n2 ~ end
-        n2 = n1->next; // 中间节点的下一个
-        ListNode *n3;// 保存下一个节点
-        n1->next = nullptr; // mid -> nullptr
-        while (n2 != nullptr) {
-            n3 = n2->next;
-            n2->next = n1;
-            n1 = n2;
-            n2 = n3;
-        }
-        // n2 -> end node
-        n3 = n1; // save last node
-        n2 = head;
-        // check Palindrome
-        while (n1 != nullptr && n2 != nullptr) {
-            if (n1->val != n2->val) {
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while (fast->next != nullptr && fast->next->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }// when the while end, slow -> mid
+
+        ListNode *save = nullptr;
+        fast = slow->next; // fast -> mid->next, slow - > mid
+        slow->next = nullptr;
+        while (fast != nullptr) {
+            save = fast->next;
+            fast->next = slow;
+            slow = fast;
+            fast = save;
+        }// when the while end, slow -> end
+
+        fast = head;
+        save = slow; //save the end
+        while (slow != nullptr && fast != nullptr) {
+            if (slow->val != fast->val) {
                 res = false;
                 break;
             }
-            n1 = n1->next; // left to mid
-            n2 = n2->next; // right to mid
+            slow = slow->next;
+            fast = fast->next;
         }
-        n1 = n3->next;
-        n3->next = nullptr;
-        while (n1 != nullptr) {
-            n2 = n1->next; // save next node
-            n1->next = n3;
-            n3 = n1;
-            n1 = n2;
+
+        slow = save;
+        fast = slow->next;
+        slow->next = nullptr;
+        while (fast != nullptr) {
+            save = fast->next;
+            fast->next = slow;
+            slow = fast;
+            fast = save;
         }
+
         return res;
+
     }
 };
 
@@ -161,7 +162,7 @@ string boolToString(bool input) {
 }
 
 int main() {
-    vector<int> A = {1, 2, 3, 2, 1};
+    vector<int> A = {1, 2};
     ListNode *head = stringToListNode(A);
 
     bool ret = Solution().isPalindrome(head);
