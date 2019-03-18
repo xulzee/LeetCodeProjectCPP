@@ -45,7 +45,7 @@ public:
         return hash[head];
     }
 
-    Node *copyRandomList(Node *head) { // 时间：O(n) ：空间O(n)
+    Node *copyRandomList(Node *head) { // 时间：O(n) ：空间O(1)
         if (head == nullptr){
             return nullptr;
         }
