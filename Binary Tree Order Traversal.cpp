@@ -29,7 +29,7 @@ public:
         if (root == nullptr) {
             return res;
         }
-        preOrderRecur(root, res);
+        inOrderTraversalUnRecur(root, res);
         return res;
     }
 
@@ -70,20 +70,67 @@ public:
 
     }
 
-    void inorderTraversalRecur(TreeNode *root, vector<int> &res) {
-        if (root == nullptr){
+    void inOrderTraversalRecur(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
             return;
         }
-        inorderTraversalRecur(root->left, res);
+        inOrderTraversalRecur(root->left, res);
         res.push_back(root->val);
-        inorderTraversalRecur(root->right, res);
+        inOrderTraversalRecur(root->right, res);
     }
 
-    void inorderTraversalUnRecur(TreeNode *root, vector<int> &res){
+    void inOrderTraversalUnRecur(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+        TreeNode *cur = root;
+        stack<TreeNode *> s;
+        while (!s.empty() || cur != nullptr) {
+            if (cur != nullptr) {
+                s.push(cur);
+                cur = cur->left;
+            } else {
+                cur = s.top();
+                s.pop();
+                res.push_back(cur->val);
+                cur = cur->right;
+            }
+        }
+    }
+
+    void postOrderRecur(TreeNode *root, vector<int> &res) {
         if (root == nullptr){
             return;
         }
-        
+        postOrderRecur(root->left, res);
+        postOrderRecur(root->right, res);
+        res.push_back(root->val);
+    }
+
+    void postOrderUnRecur(TreeNode *root, vector<int> &res) {
+        if (root == nullptr) {
+            return;
+        }
+        TreeNode *cur = root;
+        stack<TreeNode *> s1;
+        stack<TreeNode *> s2;
+        s1.push(root);
+        while (!s1.empty()){
+            cur = s1.top();
+            s1.pop();
+            s2.push(cur);
+            if (cur->left != nullptr){
+                s1.push(cur->left);
+            }
+            if (cur->right != nullptr){
+                s1.push(cur->right);
+            }
+        }
+        while (!s2.empty()){
+            cur = s2.top();
+            s2.pop();
+            res.push_back(cur->val);
+        }
     }
 };
 
