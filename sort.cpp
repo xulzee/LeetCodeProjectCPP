@@ -145,7 +145,7 @@ public:
         }
     }
 
-    vector<int> quicksortpartition(vector<int> &array, int L, int R) {
+    vector<int> quickSortPartition(vector<int> &array, int L, int R) {
         vector<int> res = {0, 0};
         int less = L - 1;
         int more = R;
