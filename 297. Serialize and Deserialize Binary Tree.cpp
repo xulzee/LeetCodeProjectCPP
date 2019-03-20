@@ -22,26 +22,26 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-class Codec {
+class Codec1 {
 public:
     // level serialize
     // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
-        if (root == nullptr){
+    string serialize(TreeNode *root) {
+        if (root == nullptr) {
             return "";
         }
         string res;
         queue<TreeNode *> nodeQueue;
         TreeNode *cur;
         nodeQueue.push(root);
-        while (!nodeQueue.empty()){
+        while (!nodeQueue.empty()) {
             cur = nodeQueue.front();
             nodeQueue.pop();
             if (cur != nullptr) {
                 res += to_string(cur->val);
                 nodeQueue.push(cur->left);
                 nodeQueue.push(cur->right);
-            } else{
+            } else {
                 res += "null";
             }
             res += ",";
@@ -50,12 +50,12 @@ public:
     }
 
     // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data) {
+    TreeNode *deserialize(string data) {
         string item;
         stringstream ss;
         ss.str(data);
         queue<TreeNode *> nodeQueue;
-        if (data.empty()){
+        if (data.empty()) {
             return nullptr;
         }
         // get root
@@ -63,22 +63,22 @@ public:
         auto *root = new TreeNode(stoi(item));
         nodeQueue.push(root);
         TreeNode *cur;
-        while (true){
+        while (true) {
             cur = nodeQueue.front();
             nodeQueue.pop();
 
-            if (!getline(ss, item, ',')){
+            if (!getline(ss, item, ',')) {
                 break;
             }
-            if (item != "null"){
+            if (item != "null") {
                 int leftNumber = stoi(item);
                 cur->left = new TreeNode(leftNumber);
                 nodeQueue.push(cur->left);
             }
-            if (! getline(ss, item, ',')){
+            if (!getline(ss, item, ',')) {
                 break;
             }
-            if (item != "null"){
+            if (item != "null") {
                 int rightNumber = stoi(item);
                 cur->right = new TreeNode(rightNumber);
                 nodeQueue.push(cur->right);
@@ -88,25 +88,24 @@ public:
     }
 };
 
-class Codec1 {
+class Codec {
 public:
-    void preOrder(TreeNode *root, string &s) {
+    string preOrder(TreeNode *root) {
         if (root == nullptr) {
-            s += "null,";
-            return;
+            return "n,";
         }
-        s = s + to_string(root->val) + ",";
-        preOrder(root->left, s);
-        preOrder(root->right, s);
+        string s = to_string(root->val) + ",";
+        s += preOrder(root->left);
+        s += preOrder(root->right);
+        return s;
     }
 
     // Encodes a tree to a single string.
     string serialize(TreeNode *root) {
         if (root == nullptr) {
-            return "null";
+            return "n";
         }
-        string res;
-        preOrder(root, res);
+        string res = preOrder(root);
         return res.substr(0, res.length() - 1);
     }
 
@@ -125,10 +124,10 @@ public:
         return reconPreOrder(q);
     }
 
-    TreeNode *reconPreOrder(queue<string> &q){
+    TreeNode *reconPreOrder(queue<string> &q) {
         string value = q.front();
         q.pop();
-        if (value == "null"){
+        if (value == "n") {
             return nullptr;
         }
         TreeNode *head = new TreeNode(stoi(value));
