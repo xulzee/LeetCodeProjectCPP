@@ -6,17 +6,43 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
+
 using namespace std;
 
-inline void printIntVector(const vector<int>& vec){
-    for (auto& iter : vec) {
+inline void printIntVector(const vector<int> &vec) {
+    for (auto &iter : vec) {
         cout << iter << " ";
     }
 }
 
-inline void printCharVector(const vector<char>& vec){
-    for (auto& iter : vec) {
+inline void printCharVector(const vector<char> &vec) {
+    for (auto &iter : vec) {
         cout << iter << " ";
+    }
+}
+
+inline void trimLeftTrailingSpaces(string &input) {
+    input.erase(input.begin(), find_if(input.begin(), input.end(), [](int ch) {
+        return !isspace(ch);
+    }));
+}
+
+inline void trimRightTrailingSpaces(string &input) {
+    input.erase(find_if(input.rbegin(), input.rend(), [](int ch) {
+        return !isspace(ch);
+    }).base(), input.end());
+}
+
+inline void splitByItem(const string &s, const char item, vector<string> &res) {
+    string temp;
+    stringstream ss;
+    ss.str(s);
+    while (true) {
+        if (!getline(ss, temp, item)) {
+            break;
+        }
+        res.push_back(temp);
     }
 }
 
