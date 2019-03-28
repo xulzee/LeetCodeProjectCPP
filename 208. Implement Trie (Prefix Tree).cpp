@@ -70,6 +70,24 @@ public:
     }
 
 
+    void deleteWord(string word) {
+        if (!search(word)) {
+            return;
+        }
+        int index = 0;
+        TrieNode *cur = root;
+        for (auto i = word.begin(); i != word.end(); ++i) {
+            index = *i - 'a';
+            cur->next[index]->path--;
+            if (cur->next[index]->path == 0) {
+                cur->next[index] = nullptr;
+                return;
+            }
+            cur = cur->next[index];
+        }
+        cur->end--;
+    }
+
     /** Returns if there is any word in the trie that starts with the given prefix. */
     bool startsWith(string prefix) {
         if (prefix.empty()) {
@@ -91,6 +109,12 @@ public:
 int main() {
     Trie *trie = new Trie;
     trie->insert("xaaxw");
+    trie->insert("xaaxw1");
+    trie->insert("xaaxw2");
+    trie->insert("xaaxw3");
+    cout << trie->search("xaaxw") << endl;
+    trie->deleteWord("xaaxw");
+    cout << trie->search("xaaxw") << endl;
     trie->insert("xa1axw");
     trie->insert("xa2axw");
     cout << trie->search("xa") << endl;
