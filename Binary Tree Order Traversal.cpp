@@ -92,6 +92,7 @@ public:
             } else {
                 cur = s.top();
                 s.pop();
+                // 遍历
                 res.push_back(cur->val);
                 cur = cur->right;
             }
