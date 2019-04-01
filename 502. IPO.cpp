@@ -23,13 +23,15 @@ struct Node {
 };
 
 struct costComparator {
-    bool operator()(const Node &a, const Node &b) {
+    bool operator()(const Node &a, const Node &b) const
+    {
         return a.cost > b.cost; // '>' -> 从小到大
     }
 };
 
 struct profitComparator {
-    bool operator()(const Node &a, const Node &b) {
+    bool operator()(const Node &a, const Node &b) const
+    {
         return a.profit < b.profit;// '<' -> 从大到小
     }
 };
