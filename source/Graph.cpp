@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <queue>
 #include <stack>
+#include <map>
 
 using namespace std;
 
@@ -55,7 +56,6 @@ class UnionFind {
 public:
     unordered_map<Node *, Node *> fatherMap; // {node : father}
     unordered_map<Node *, int> rankMap; // 集合中元素数量
-
     UnionFind() = default;
 
     Node *findHeadNode(Node *node) {
@@ -231,7 +231,7 @@ set<Edge *> kruskalMST(Graph *graph) {
     while (!edgeQueue.empty()) {
         auto curEdge = edgeQueue.top();
         edgeQueue.pop();
-        if (!unionFind->isSameSet(curEdge->from, curEdge->to)) {
+        if (!unionFind->isSameSet(curEdge->from, curEdge->to)) { // 不形成环
             resEdgeSet.insert(curEdge);
             unionFind->unionSet(curEdge->from, curEdge->to);
         }
@@ -252,18 +252,10 @@ set<Edge *> primMST(Graph *graph) {
             while (!edgeQueue.empty()) {
                 auto curEdge = edgeQueue.top();
                 edgeQueue.pop();
-                auto fromNode = curEdge->from;
-                if (nodeSet.find(fromNode) == nodeSet.end()) {
-                    nodeSet.insert(fromNode);
-                    resEdgeSet.insert(curEdge);
-                    for (auto nextEdge : fromNode->edges) {
-                        edgeQueue.push(nextEdge);
-                    }
-                }
                 auto toNode = curEdge->to;
                 if (nodeSet.find(toNode) == nodeSet.end()) { // 不形成环
                     nodeSet.insert(toNode);
-                    resEdgeSet.insert(curEdge);
+                    resEdgeSet.insert(curEdge); // insert result
                     for (auto nextEdge : toNode->edges) {
                         edgeQueue.push(nextEdge);
                     }
@@ -273,6 +265,148 @@ set<Edge *> primMST(Graph *graph) {
         }
     }
     return resEdgeSet;
+}
+
+Node *getMinDistanceAndUnselectedNode(unordered_map<Node *, int> distanceMap, set<Node *> touchedNode) {
+    Node *minNode = nullptr;
+    int minDistance = 0x7fffffff;
+    for (auto it = distanceMap.begin(); it != distanceMap.end(); ++it) {
+        Node *node = (*it).first;
+        int distance = (*it).second;
+        if (touchedNode.find(node) == touchedNode.end() && distance < minDistance) {
+            minNode = node;
+            minDistance = distance;
+        }
+    }
+    return minNode;
+}
+
+// 不能有负权重
+unordered_map<Node *, int> dijkstra(Node *node) {
+    unordered_map<Node *, int> distanceMap;
+    set<Node *> touchedNode;
+    distanceMap[node] = 0;
+    Node *minNode = getMinDistanceAndUnselectedNode(distanceMap, touchedNode);
+    while (minNode != nullptr) {
+        int distance = distanceMap[minNode];
+        for (Edge *edge : minNode->edges) {
+            Node *toNode = edge->to;
+            if (distanceMap.find(toNode) != distanceMap.end()) {
+                distanceMap[toNode] = edge->weight + distance;
+            }
+            distanceMap[edge->to] = min(distanceMap[edge->to], edge->weight + distance); // 更新 distanceMap
+        }
+        touchedNode.insert(minNode);
+        minNode = getMinDistanceAndUnselectedNode(distanceMap, touchedNode);
+    }
+    return distanceMap;
+}
+
+class NodeRecord {
+public:
+    Node *node;
+    int distance;
+
+    NodeRecord(Node *n, int d) {
+        node = n;
+        distance = d;
+    }
+};
+
+class NodeHeap {
+private:
+    vector<Node *> nodes;
+    unordered_map<Node *, int> heapIndexMap;
+    unordered_map<Node *, int> distanceMap;
+    int size;
+
+public:
+    explicit NodeHeap() {
+        size = 0;
+    }
+
+    void addOrUpdateOrIgnore(Node *node, int distance) {
+        if (inHeap(node)) {
+            distanceMap[node] = min(distanceMap[node], distance);
+            heapinsert(node, heapIndexMap[node]);
+        }
+        if (!isEntered(node)) {
+            distanceMap[node] = distance;
+            nodes.push_back(node);
+            heapIndexMap[node] = size;
+            heapinsert(node, size);
+            size++;
+        }
+    }
+
+    NodeRecord *heapPop() {
+        auto *res = new NodeRecord(nodes[0], distanceMap[nodes[0]]);
+        swap(0, size - 1);
+        heapIndexMap[nodes[size]] = -1;
+        distanceMap.erase(nodes[size - 1]);
+        heapify(0, --size);
+        return res;
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    void swap(int a, int b) {
+        heapIndexMap[nodes[a]] = b;
+        heapIndexMap[nodes[b]] = a;
+        Node *temp = nodes[a];
+        nodes[a] = nodes[b];
+        nodes[b] = temp;
+    }
+
+    bool isEntered(Node *node) { // node是否进过堆
+        return heapIndexMap.find(node) != heapIndexMap.end();
+    }
+
+    bool inHeap(Node *node) { // node 现在是否还在堆上
+        return isEntered(node) && heapIndexMap[node] != -1;
+    }
+
+    void heapify(int index, int s) { // 下沉
+        int left = index * 2 + 1;
+        while (left < s) {
+            int min;
+            min = left + 1 < s && distanceMap[nodes[left]] < distanceMap[nodes[left + 1]] ? left : left +
+                                                                                                   1; // right 存在 ; 比较左右节点
+            min = distanceMap[nodes[index]] < distanceMap[nodes[min]] ? index : min;
+            if (index == min) {
+                break;
+            }
+            swap(index, min);
+            index = min;
+            left = index * 2 + 1;
+        }
+    }
+
+    void heapinsert(Node *node, int index) {
+        while (distanceMap[nodes[index]] < distanceMap[nodes[(index - 1) / 2]]) {
+            swap(index, (index - 1) / 2);
+            index = (index - 1) / 2;
+        }
+    }
+};
+
+
+unordered_map<Node *, int> dijkstra2(Node *node) {
+    auto *nodeHeap = new NodeHeap();
+    nodeHeap->addOrUpdateOrIgnore(node, 0);
+    unordered_map<Node *, int> res;
+    while (!nodeHeap->isEmpty()) {
+        NodeRecord *record = nodeHeap->heapPop();
+        Node *cur = record->node;
+        int distance = record->distance;
+        for (auto edge : cur->edges) {
+            nodeHeap->addOrUpdateOrIgnore(edge->to, edge->weight + distance);
+        }
+        res[cur] = distance;
+    }
+    return res;
 }
 
 int main() {
