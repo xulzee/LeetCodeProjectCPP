@@ -19,7 +19,7 @@ struct TreeNode {
     TreeNode *left;
     TreeNode *right;
 
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    explicit TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
 };
 
 class Codec1 {
@@ -88,7 +88,7 @@ public:
     }
 };
 
-class Codec {
+class Codec2 {
 public:
     string preOrder(TreeNode *root) {
         if (root == nullptr) {
@@ -140,6 +140,72 @@ public:
 // Your Codec object will be instantiated and called as such:
 // Codec codec;
 // codec.deserialize(codec.serialize(root));
+
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode *root) {
+        string res;
+        queue<TreeNode *> nodeQueue;
+        nodeQueue.push(root);
+        while (!nodeQueue.empty()) {
+            TreeNode *cur = nodeQueue.front();
+            nodeQueue.pop();
+            if (cur == nullptr) {
+                res += "null";
+            } else {
+                res.append(to_string(cur->val));
+            }
+            if (cur != nullptr) {
+                nodeQueue.push(cur->left);
+                nodeQueue.push(cur->right);
+            }
+            res.append(",");
+        }
+        return res.substr(0, res.size() - 1);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode *deserialize(const string &data) {
+        if (data == "null"){
+            return nullptr;
+        }
+        stringstream ss(data);
+        string item;
+        getline(ss, item, ',');
+        TreeNode *root = new TreeNode(stoi(item));
+        queue<TreeNode *> nodeQueue;
+        nodeQueue.push(root);
+        while (true) {
+            TreeNode *cur = nodeQueue.front();
+            nodeQueue.pop();
+
+            // left
+            if (!getline(ss, item, ',')) { // ""
+                break;
+            }
+            if (item == "null") {
+                cur->left = nullptr;
+            } else {
+                cur->left = new TreeNode(stoi(item));
+                nodeQueue.push(cur->left);
+            }
+
+            //right
+            if (!getline(ss, item, ',')) { // ""
+                break;
+            }
+            if (item == "null") {
+                cur->right = nullptr;
+            } else {
+                cur->right = new TreeNode(stoi(item));
+                nodeQueue.push(cur->right);
+            }
+        }
+        return root;
+    }
+};
 
 
 TreeNode *stringToTreeNode(string input) {
