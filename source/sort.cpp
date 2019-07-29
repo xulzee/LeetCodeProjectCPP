@@ -191,7 +191,7 @@ public:
         }
     }
 
-    void heapify(vector<int> &array, int size, int index) {
+    void _heapify(vector<int> &array, int size, int index) {
         int left = index * 2 + 1;
         int largest = 0;
         while (left < size) {

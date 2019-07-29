@@ -50,30 +50,14 @@ int getIndexOf(const string &s, const string &t) {
     }
 }
 
-int canArrangWords(int num, char **arr) {
-    vector<int> preMap(26, 0);
-    for (int i = 0; i < num; ++i) {
-        char pre = arr[i][0];
-        char end = arr[i][strlen(arr[i]) - 1];
-        preMap[pre - 'a']++;
-        if (end != pre) {
-            preMap[end - 'a']--;
-        }
-    }
-    int res = 0;
-    for (int i = 0; i < 26; ++i) {
-        if (preMap[i] != 0) {
-            res++;
-        }
-    }
-    return res == 2 ? 1 : -1;
-}
 
 int main() {
     string s = "123qweabababab123";
     string test = "abababab";
     auto ret = getIndexOf(s, test);
-    char c[4][8]={{"ab"},{"bc"},{"cd"}};
+    char c[4][8] = {{"ab"},
+                    {"bc"},
+                    {"cd"}};
 
 }
 

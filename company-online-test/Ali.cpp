@@ -4,6 +4,7 @@
 // @Software: CLion
 #include <iostream>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -41,7 +42,7 @@ public:
     int dynamicprocess(int n, int p, int m, int k) {
         vector<vector<int>> dp(k + 1, vector<int>(n + 1, 0));
         dp[0][p] = 1;
-        for (int i = 1; i <= k; ++i) {
+        for (int i = 1; i <= k; ++i) { // step
             for (int j = 1; j <= n; ++j) {
                 if (j == 1) {
                     dp[i][j] = dp[i - 1][j + 1];
@@ -55,6 +56,7 @@ public:
         return dp[k][m];
     }
 };
+
 
 int main() {
     cout << solution().process(100, 50, 40, 210) << endl;
