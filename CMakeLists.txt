@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(include)
 
 add_executable(LeetCodeProjectCPP
-        "autumn-recruitment/26. Remove Duplicates from Sorted Array.cpp")
+        "source/autumn-recruitment/26. Remove Duplicates from Sorted Array.cpp")
