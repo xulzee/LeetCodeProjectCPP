@@ -1,6 +1,8 @@
 //
 // Created by liuze.xlz on 2019-07-30.
 //
+#include "utils.h"
+
 class Solution {
 public:
     vector<int> twoSum(vector<int> &nums, int target) {
