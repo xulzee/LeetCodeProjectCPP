@@ -9,7 +9,6 @@ public:
         if (n == 0 || n == 1) {
             return 1;
         }
-
         return process(n - 1) + process(n - 2);
     }
 
@@ -26,6 +25,6 @@ public:
     }
 };
 
-int main(){
-    cout  << Solution().climbStairs(3) << endl;
+int main() {
+    cout << Solution().climbStairs(3) << endl;
 }
