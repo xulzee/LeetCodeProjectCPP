@@ -113,8 +113,8 @@ public:
 
     void put(int key, int value) {
         // key is not found
-        if (map.find(key) == map.end()){
-            if (capacity == cache.size()){
+        if (map.find(key) == map.end()) {
+            if (capacity == cache.size()) {
                 map.erase(cache.back().first);
                 cache.pop_back();
             }
@@ -122,7 +122,7 @@ public:
             map[key] = cache.begin();
         } else{
             cache.erase(map[key]);
-            cache.push_front(make_pair(key,value));
+            cache.push_front(make_pair(key, value));
             map[key] = cache.begin();
         }
     }
