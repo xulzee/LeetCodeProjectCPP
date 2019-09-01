@@ -57,6 +57,37 @@ void PriorityQueue() {
     cout << m_big_queue.top().front() << " " << m_big_queue.top().back() << endl;
 }
 
+// 输入模板
+vector<int> SplitByIntItem(const string &s, const char item){
+    // item is int
+    vector<int>res;
+    string temp;
+    stringstream ss;
+    ss.str(s);
+    while (true){
+        if (!getline(ss, temp, item)){
+            break;
+        }
+        res.push_back(stoi(temp));
+    }
+    return res;
+}
+
+// 输入模板
+vector<string> SplitByStringItem(const string &s, const char item){
+    // item is string
+    vector<string>res;
+    string temp;
+    stringstream ss;
+    ss.str(s);
+    while (true){
+        if (!getline(ss, temp, item)){
+            break;
+        }
+        res.push_back(temp);
+    }
+    return res;
+}
 
 int main() {
     SortByValue();
