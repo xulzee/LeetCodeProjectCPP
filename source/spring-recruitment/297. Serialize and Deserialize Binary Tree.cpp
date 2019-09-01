@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <queue>
 #include <stack>
-#include "../include/utils.h"
+#include "utils.h"
 
 using namespace std;
 

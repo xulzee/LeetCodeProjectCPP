@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "../include/utils.h"
+#include "utils.h"
 
 //Definition for singly-linked list.
 struct ListNode {

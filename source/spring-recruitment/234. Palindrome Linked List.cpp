@@ -8,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include "../include/utils.h"
+#include "utils.h"
 
 using namespace std;
 

@@ -7,7 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
-#include "../include/utils.h"
+#include "utils.h"
 
 //Definition for a binary tree node.
 struct TreeNode {

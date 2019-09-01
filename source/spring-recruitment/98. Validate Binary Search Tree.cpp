@@ -8,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <stack>
-#include "../include/utils.h"
+#include "utils.h"
 
 //Definition for a binary tree node.
 struct TreeNode {

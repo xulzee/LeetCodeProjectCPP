@@ -3,7 +3,7 @@
 //
 #include <vector>
 #include <iostream>
-#include "../include/utils.h"
+#include "utils.h"
 using namespace std;
 
 class Solution {
