@@ -6,7 +6,8 @@
 *.user
 *.userosscache
 *.sln.docstates
-cmake-build-debug/
+cmake-build*/
+.vscode
 .DS_Store
 
 # User-specific files (MonoDevelop/Xamarin Studio)

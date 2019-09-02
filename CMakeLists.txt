@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 2.8)
 project(LeetCodeProjectCPP)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(include)
 
 add_executable(LeetCodeProjectCPP
-        "source/autumn-recruitment/26. Remove Duplicates from Sorted Array.cpp")
+        "source/company-online-test/pingduoduo.cpp")
