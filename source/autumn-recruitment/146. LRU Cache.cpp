@@ -95,41 +95,48 @@ private:
 
 class LRUCache {
 public:
-    explicit LRUCache(int capacity) : capacity(capacity) {
+    explicit LRUCache(int capacity) {
+        capacity_ = capacity;
     }
 
     int get(int key) {
-        // key is not found
-        if (map.find(key) == map.end()) {
+        if (map_.find(key) == map_.end()) {
             return -1;
         }
-        // push to front
-        pair<int, int> key_value = *(map[key]);
-        cache.erase(map[key]);
-        cache.push_front(key_value);
-        map[key] = cache.begin();
-        return key_value.second;
+        // push front
+        pair<int, int> key_value = *map_[key];
+        cache_.erase(map_[key]);
+        cache_.push_front(key_value);
+        map_[key] = cache_.begin();
+        return cache_.front().second;
     }
 
     void put(int key, int value) {
-        // key is not found
-        if (map.find(key) == map.end()) {
-            if (capacity == cache.size()) {
-                map.erase(cache.back().first);
-                cache.pop_back();
+        if (map_.find(key) == map_.end()) {
+            if (map_.size() >= capacity_){
+                map_.erase(cache_.back().first);
+                cache_.pop_back();
             }
-            cache.push_front(make_pair(key, value));
-            map[key] = cache.begin();
-        } else{
-            cache.erase(map[key]);
-            cache.push_front(make_pair(key, value));
-            map[key] = cache.begin();
+            cache_.push_front(make_pair(key, value));
+            map_[key] = cache_.begin();
+        } else {
+            cache_.erase(map_[key]);
+            cache_.push_front(make_pair(key, value));
+            map_[key] = cache_.begin();
         }
+
     }
 
 private:
-    int capacity;
-    list<pair<int, int>> cache;
-    unordered_map<int, list<pair<int, int>>::iterator> map;
+    int capacity_;
+    list<pair<int, int>> cache_;
+    unordered_map<int, list<pair<int, int>>::iterator> map_;
 };
 
+int main(){
+    auto test = new LRUCache(10);
+    test->put(1,1);
+    test->put(2,2);
+    test->put(3,3);
+    test->get(1);
+}
