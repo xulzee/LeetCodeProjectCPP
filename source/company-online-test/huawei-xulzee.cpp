@@ -102,6 +102,7 @@ static const auto io_sync_off = []() {
 }();
 
 int main2() {
+    string s;
     int n;
     string input;
     getline(cin, input);
