@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <vector>
-#include "../include/utils.h"
+#include "utils.h"
 
 #define random(x) (rand() % x)
 
